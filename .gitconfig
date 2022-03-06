@@ -1,0 +1,9 @@
+[user]
+	email = sergeantsagara@protonmail.com
+	name = Rahul Rameshbabu
+[core]
+	askPass = 
+[http]
+	cookiefile = /home/binary-eater/.gitcookies
+[init]
+	defaultBranch = trunk

@@ -1,0 +1,16 @@
+#!/bin/sh
+# Author: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+# ref: https://github.com/dunst-project/dunst/issues/77#issuecomment-418526681
+
+xscreensaver-command -watch | while read event rest; do
+	case $event in
+		"LOCK"|"BLANK")
+			pkill -USR1 -x -u `id -u` dunst
+			logger Paused dunst due to XScreenSaver
+			;;
+		"UNBLANK")
+			pkill -USR2 -x -u `id -u` dunst
+			logger Resumed dunst due to XScreenSaver
+			;;
+	esac
+done

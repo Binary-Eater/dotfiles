@@ -1,0 +1,16 @@
+# Author: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+
+# File variables/modeline for emacs/vim
+# Vi/Vim modeline
+# vi: filetype=sh
+# Emacs mode
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:
+
+# Set shell to have Vi bindings
+set -o vi
+
+# Let starship manage prompt configuration
+eval "$(starship init bash)"

@@ -1,0 +1,4 @@
+#!/bin/sh
+# Author: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+
+xset q | awk '/Scroll Lock/{ if ($12 ~ "on") print "-led"; else print "led" }' | xargs -I '{}' xset '{}' named 'Scroll Lock'

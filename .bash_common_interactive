@@ -1,0 +1,19 @@
+# Author: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+
+# File variables/modeline for emacs/vim
+# Vi/Vim modeline (must appear in first or last five lines of file)
+# vi: filetype=sh
+# Emacs file variables
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:
+
+CONFIG_PATH=$HOME/.config/bash
+if [[ -v XDG_CONFIG_HOME ]]; then
+	CONFIG_PATH=$XDG_CONFIG_HOME/bash
+fi
+
+if [[ -f $CONFIG_PATH/.shell_settings ]]; then
+	. $CONFIG_PATH/.shell_settings
+fi
