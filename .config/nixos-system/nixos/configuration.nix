@@ -156,9 +156,9 @@ with lib;
     #packages = [ pkgs.steam ]; # User-restricted packages
   };
 
-  # Bind mount NixOS configurations to user directory on different fs
+  # Bind mount NixOS configurations to user directory on different fs.
   # This enables the system configuration to be tracked in the same
-  # git repository with the user home directory as the work tree
+  # git repository with the user home directory as the work tree.
   fileSystems."/home/binary-eater/.config/nixos-system/nixos" = {
     device = "/etc/nixos/";
     options = [ "bind" ];

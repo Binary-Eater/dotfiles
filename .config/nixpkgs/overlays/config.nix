@@ -9,6 +9,7 @@ self: super:
       imagemagick                   # Image Manipulation Library
       kicad                         # PCB Design Software
       neofetch                      # Terminal Startup Display
+      pass                          # GPG-based Password Manager
       qutebrowser                   # Web Browser
       saleae-logic                  # Saleae Logic Analyzer
       slack                         # Slack Chat Application

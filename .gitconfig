@@ -1,6 +1,7 @@
 [user]
 	email = sergeantsagara@protonmail.com
 	name = Rahul Rameshbabu
+	signingkey = 678A8DF1D9F2B51B7110BE53FF247B3E5411387B
 [core]
 	askPass = 
 [http]
