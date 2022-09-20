@@ -50,7 +50,7 @@ import qualified Data.Map as M
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.FadeInactive
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isDialog, isFullscreen, doFullFloat)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
@@ -68,7 +68,7 @@ import XMonad.Layout.ThreeColumns
     -- Layouts modifiers
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
-import XMonad.Layout.Magnifier
+import XMonad.Layout.Magnifier (magnifier)
 import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
 import XMonad.Layout.NoBorders
@@ -648,7 +648,7 @@ main = do
     -- if planning to get multiple monitors
     xmproc <- spawnPipe "xmobar $HOME/.config/xmonad/xmobarrc.hs"
     -- the xmonad, ya know...what the WM is named after!
-    xmonad $ ewmh def
+    xmonad $ ewmh . docks $ def
         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
         -- Run xmonad commands from command line with "xmonadctl command". Commands include:
         -- shrink, expand, next-layout, default-layout, restart-wm, xterm, kill, refresh, run,
@@ -657,7 +657,6 @@ main = do
         , handleEventHook    = serverModeEventHookCmd
                                <+> serverModeEventHook
                                <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
-                               <+> docksEventHook
         , modMask            = myModMask
         , terminal           = myTerminal
         , startupHook        = myStartupHook
@@ -680,6 +679,6 @@ main = do
                         }
                     <+> wallpaperSetter defWallpaperConf
                         { wallpaperBaseDir = myHome </> "Pictures" </> "Wallpaper"
-                        , wallpapers       = defWPNames myWorkspaces
+                        , wallpapers       = defWPNamesJpg myWorkspaces            -- TODO consider using defWPNamesPng in the future
                         }
         } `additionalKeysP` myKeys `removeKeysP` ["M-q"]

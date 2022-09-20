@@ -194,7 +194,7 @@ with lib;
   # List fonts installed in system profile.
   fonts.fonts = with pkgs; [
     mononoki     # Mononoki Nerd Font
-    font-awesome # Font Awesome Free
+    font-awesome_5 # Font Awesome Free
   ];
 
   # List services that you want to enable:
