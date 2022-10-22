@@ -220,6 +220,9 @@ in
     pinentryFlavor = "curses";
   };
 
+  # Enable smart card support.
+  services.pcscd.enable = true;
+
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = false;
