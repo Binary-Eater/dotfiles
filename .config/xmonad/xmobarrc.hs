@@ -3,8 +3,8 @@
 -- you can find weather location codes here: http://weather.noaa.gov/index.html
 
 Config { font            = "xft:mononoki:pixelsize=11:antialias=true:hinting=true"
-       , additionalFonts = [ "xft:Font Awesome 5 Free:style=Solid:pixelsize=13"
-                           , "xft:Font Awesome 5 Brands:pixelsize=13"
+       , additionalFonts = [ "xft:Font Awesome 6 Free:style=Solid:pixelsize=13"
+                           , "xft:Font Awesome 6 Brands:pixelsize=13"
                            ]
        , bgColor         = "#292b2e"
        , fgColor         = "#ff6c6b"

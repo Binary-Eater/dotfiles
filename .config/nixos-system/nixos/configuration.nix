@@ -6,6 +6,14 @@
 
 with lib;
 
+let
+  unstable = import <nixos-unstable> {
+    config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "nvidia-x11"
+      "nvidia-settings"
+    ];
+  };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -14,7 +22,7 @@ with lib;
 
   # Specify kernel package used.
   # boot.kernelPackages = pkgs.linuxPackages; # Default value
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
+  boot.kernelPackages = unstable.linuxPackages_latest; # Latest kernel
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
@@ -165,7 +173,12 @@ with lib;
   };
 
   # Allow unfree software like NVIDIA proprietary drivers.
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "nvidia-x11"
+    "nvidia-settings"
+    "steam"
+    "steam-original"
+  ];
 
   # Enable steam program.
   programs.steam.enable = true;
@@ -194,7 +207,7 @@ with lib;
   # List fonts installed in system profile.
   fonts.fonts = with pkgs; [
     mononoki     # Mononoki Nerd Font
-    font-awesome_5 # Font Awesome Free
+    font-awesome # Font Awesome Free
   ];
 
   # List services that you want to enable:
