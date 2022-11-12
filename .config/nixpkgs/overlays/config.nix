@@ -5,6 +5,7 @@ self: super:
     paths = [
       discord                       # Discord Content Sharing Application
       feh                           # Image Viewer/Cataloguer
+      fractal                       # Matrix Client
       git                           # VCS
       imagemagick                   # Image Manipulation Library
       kicad                         # PCB Design Software

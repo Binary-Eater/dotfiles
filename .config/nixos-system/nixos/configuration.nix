@@ -116,6 +116,18 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable (grudgingly) GNOME keyring for use with fractal
+  services.gnome.gnome-keyring.enable = true;
+
+  # Enable (grudgingly) GNOME virtual file system for use with fractal
+  services.gvfs.enable = true;
+  services.gvfs.package = (pkgs.gvfs.overrideAttrs (oldAttrs: {
+    buildInputs = oldAttrs.buildInputs ++ [
+      pkgs.glib-networking
+      pkgs.libsoup
+    ];
+  })) ;
+
   /* NOTE: Disabling standard approach to sound in NixOS
    *
    * # Enable sound.
