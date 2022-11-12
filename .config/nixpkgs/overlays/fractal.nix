@@ -8,9 +8,15 @@ in
 {
   fractal = super.fractal.overrideAttrs (
     _: rec {
-          version = "5-alpha1-rc.1";
+          version = "5-alpha1";
 
-          src = ~/Documents/fractal;
+          src = super.fetchFromGitLab {
+            domain = "gitlab.gnome.org";
+            owner = "GNOME";
+            repo = "fractal";
+            rev = self.fractal.version;
+            sha256 = "gHMfBGrq3HiGeqHx2knuc9LomgIW9QA9fCSCcQncvz0=";
+          };
 
           LIBCLANG_PATH = "${super.libclang.lib}/lib";
 
@@ -49,7 +55,7 @@ in
           cargoDeps = super.rustPlatform.fetchCargoTarball {
             inherit src;
             name = "${super.fractal.pname}-${self.fractal.version}";
-            hash = "sha256-pUZnC0Vc9hWYLCvcakRx6bxJxWdoX1HnbHoAqmjAV90=";
+            hash = "sha256-ImGnr4Oa3eToTAwDZKoWEFC326LVkwUCJsUPbl/taPo=";
           };
     }
   );
