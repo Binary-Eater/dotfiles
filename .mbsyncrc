@@ -1,0 +1,45 @@
+IMAPAccount proton
+# Address to connect to
+Host 127.0.0.1
+Port 1143
+User sergeantsagara@protonmail.com
+# The proton-bridge project also stores the bridge password in base64 encoded plaintext
+# Therefore, this is not worse in terms of security than what proton-bridge currently does
+# TODO add a flag for outputting the bridge password from proton-bridge, so the password is
+# fully managed by the bridge application
+# Avoiding using gpg to encrypt password because currently using curses pinentry program
+# curses pinentry program requires a tty
+PassCmd "base64 --decode --wrap=0 ~/.config/protonmail/bridge/.proton_bridge_passwd"
+# To store the password in an encrypted file use PassCmd instead of Pass
+# PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass.gpg"
+#
+# Use SSL
+SSLType STARTTLS
+# The following line should work. If you get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile ~/.config/protonmail/bridge/cert.pem
+#CertificateFile /etc/ssl/certs/ca-certificates.crt
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore proton-remote
+Account proton
+
+MaildirStore proton-local
+SubFolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/proton/
+Inbox ~/.mail/proton/Inbox
+
+Channel proton
+Far :proton-remote:
+Near :proton-local:
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+#Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything
+Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Sync the movement of messages between folders and deletions, add after making sure the sync works
+Expunge Both
+# Save the synchronization state files in the relevant directory
+SyncState *

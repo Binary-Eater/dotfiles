@@ -173,6 +173,7 @@ myStartupHook = do
     spawnOnce "nm-applet &"
     spawnOnce "volumeicon &"
     spawnOnce $ "trayer --edge top --align right --widthtype request --padding 6 --iconspacing 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x" ++ drop 1 myNormColor ++ " --height 30 &"
+    spawnOnce "protonmail-bridge --noninteractive &"
     spawnOnce "emacs --daemon &"
 --  Only need if working with any ancient version of the Java Runtime
 --  setWMName "LG3D" -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Hooks-SetWMName.html

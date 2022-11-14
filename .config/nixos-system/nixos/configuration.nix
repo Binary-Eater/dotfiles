@@ -199,9 +199,9 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Core tools
-    dunst                       # Notification Daemon
-    vim                         # Core Editor
-    volumeicon                  # ALSA Volume Control System Tray Utility
+    dunst                # Notification Daemon
+    vim                  # Core Editor
+    volumeicon           # ALSA Volume Control System Tray Utility
     networkmanagerapplet # NetworkManager System Tray Utility
 
     # User tools
@@ -242,9 +242,16 @@ in
     passwordAuthentication = false;
   };
 
+  # Add udev rules.
+  services.udev.extraRules = concatStringsSep "\n" [
+    # Initialize Apple USB SuperDrive
+    # TODO debug
+    ''"ACTION=="add", ATTRS{idProduct}=="1500", ATTRS{idVendor}=="05ac", DRIVERS=="usb", RUN+="${pkgs.sg3_utils}/bin/sg_raw %r/sr%n EA 00 00 00 00 00 01"''
+  ];
+
   # Enable virtual box.
   virtualisation.virtualbox.host.enable = false;
-  users.extraGroups.vboxusers.members = [ "binary-eater" ];
+  # users.extraGroups.vboxusers.members = [ "binary-eater" ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
