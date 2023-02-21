@@ -14,3 +14,6 @@ set -o vi
 
 # Let starship manage prompt configuration
 eval "$(starship init bash)"
+
+# Dotfiles alias
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'

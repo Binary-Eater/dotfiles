@@ -1,8 +1,8 @@
 self: super:
 let
   lib32_gstreamer = (super.callPackage_i686 <nixpkgs/pkgs/development/libraries/gstreamer/core> {
-      CoreServices = {};  # macOS dependency.....
-    });
+    CoreServices = {};  # macOS dependency.....
+  });
   lib32_gst-plugins-base = (super.callPackage_i686 <nixpkgs/pkgs/development/libraries/gstreamer/base> {
     Cocoa = {}; # macOS dependency.....
     OpenGL = (super.callPackage_i686 <nixpkgs/nixos/modules/hardware/opengl.nix> {});
@@ -37,6 +37,7 @@ in
       feh                           # Image Viewer/Cataloguer
       fractal                       # Matrix Client
       git                           # VCS
+      graphviz                      # GraphViz for erc-social-graph
       imagemagick                   # Image Manipulation Library
       isync                         # IMAP Maildir Sync Client
       kicad                         # PCB Design Software

@@ -4,7 +4,7 @@ Description :  Binary-Eater XMonad configuration
 Copyright   :  (c) Binary-Eater
 License     :  GPLv3
 
-Maintainer  :  sergeantsagara@protonmail.com
+Maintainer  :  Rahul Rameshbabu <sergeantsagara@protonmail.com>
 Stability   :  unstable | experimental | provisional | stable | frozen
 Portability :  portable
 

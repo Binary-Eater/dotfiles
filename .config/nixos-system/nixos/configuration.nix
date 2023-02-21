@@ -6,14 +6,6 @@
 
 with lib;
 
-let
-  unstable = import <nixos-unstable> {
-    config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "nvidia-x11"
-      "nvidia-settings"
-    ];
-  };
-in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -22,7 +14,7 @@ in
 
   # Specify kernel package used.
   # boot.kernelPackages = pkgs.linuxPackages; # Default value
-  boot.kernelPackages = unstable.linuxPackages_latest; # Latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
@@ -93,6 +85,9 @@ in
       ];
     };
   };
+
+  # KDE test environment TODO delete
+  services.xserver.desktopManager.plasma5.enable = false;
 
   # Configure X server screen settings
   services.xserver.screenSection = ''
@@ -190,6 +185,7 @@ in
     "nvidia-settings"
     "steam"
     "steam-original"
+    "steam-run"
   ];
 
   # Enable steam program.
@@ -229,7 +225,7 @@ in
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryFlavor = "curses";
+    #pinentryFlavor = "curses";
   };
 
   # Enable smart card support.

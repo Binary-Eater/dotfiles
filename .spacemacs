@@ -46,6 +46,18 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      helm
+     pass
+     (erc :variables
+          erc-enable-sasl-auth t
+          erc-server-list
+          '(("irc.libera.chat"
+             :port "6697"
+             :ssl t
+             :nick "binary-eater")
+            ("irc.oftc.net"
+             :port "6697"
+             :ssl t
+             :nick "binary-eater")))
      ;; lsp
      ;; markdown
      multiple-cursors
@@ -579,6 +591,14 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;(remove-hook 'prog-mode-hook #'smartparens-mode)
 
+  ;; auth-source settings
+  ;(setq auth-source-debug 'trivia)
+  ;(setq auth-sources '("~/.authinfo" password-store))
+
+  ;; ERC settings
+  (setq erc-prompt-for-password nil)
+  (setq erc-prompt-for-nickserv-password nil)
+
   ;; mu4e setup
   (setq mu4e-maildir "~/.mail/proton"
         user-full-name "Rahul Rameshbabu"
@@ -669,7 +689,7 @@ This function is called at the very end of Spacemacs initialization."
  '(auth-source-save-behavior nil)
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(helm-mu mu4e-alert alert log4e gntp mu4e-maildirs-extension toml-mode ron-mode racer pos-tip rust-mode flycheck-rust dap-mode lsp-docker lsp-treemacs bui cargo web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path systemd treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor transient nix-mode helm-nixos-options nixos-options lsp-haskell lsp-mode markdown-mode hlint-refactor hindent helm-hoogle helm-gtags haskell-snippets yasnippet ggtags flycheck-haskell dante lcr haskell-mode counsel-gtags counsel swiper ivy company-cabal company cmm-mode attrap ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(helm-pass password-store-otp password-store erc-hl-nicks erc-image erc-social-graph erc-view-log erc-yt helm-mu mu4e-alert alert log4e gntp mu4e-maildirs-extension toml-mode ron-mode racer pos-tip rust-mode flycheck-rust dap-mode lsp-docker lsp-treemacs bui cargo web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path systemd treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor transient nix-mode helm-nixos-options nixos-options lsp-haskell lsp-mode markdown-mode hlint-refactor hindent helm-hoogle helm-gtags haskell-snippets yasnippet ggtags flycheck-haskell dante lcr haskell-mode counsel-gtags counsel swiper ivy company-cabal company cmm-mode attrap ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(send-mail-function 'smtpmail-send-it))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
