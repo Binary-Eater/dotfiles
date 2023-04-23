@@ -1,0 +1,130 @@
+#+STARTUP: showall
+#+STARTUP: indent
+
+* Dotfiles
+** XMonad
+*** Keybindings
+**** XMonad
+| Binding | Description          |
+|---------+----------------------|
+| M-C-r   | ~xmonad --recompile~ |
+| M-C-q   | ~xmonad --restart~   |
+| M-S-q   | Exit Xmonad.         |
+**** Terminal
+| Binding      | Description         |
+|--------------+---------------------|
+| M-S-<Return> | Safe spawn teminal. |
+**** Run Prompt
+| Binding      | Description           |
+|--------------+-----------------------|
+| M-C-<Return> | Application launcher. |
+**** Windows
+| Binding | Description                            |
+|---------+----------------------------------------|
+| M-S-c   | Kill the currently focused client.     |
+| M-S-a   | Kill all windows on current workspace. |
+**** Floating windows
+| Binding | Description                        |
+|---------+------------------------------------|
+| M-f     | Toggle floats layout.              |
+| M-t     | Push floating window back to tile. |
+| M-S-t   | Push ALL floating windows to tile. |
+**** Grid Select
+| Binding | Description                      |
+|---------+----------------------------------|
+| C-i g   | Grid select favorite apps.       |
+| C-i m   | Grid select some bookmarks.      |
+| C-i c   | Grid select useful config files. |
+| C-i t   | Goto selected window.            |
+| C-i b   | Bring selected window.           |
+**** Tree Select
+| Binding | Description               |
+|---------+---------------------------|
+| C-t a   | Tree select actions menu. |
+**** Windows navigation
+| Binding       | Description                                               |
+|---------------+-----------------------------------------------------------|
+| M-m           | Move focus to the master window.                          |
+| M-j           | Move focus to the next window.                            |
+| M-k           | Move focus to the prev window.                            |
+| M-<Return>    | Swap the focused window and the master window.            |
+| M-S-j         | Swap focused window with next window.                     |
+| M-S-k         | Swap focused window with prev window.                     |
+| M-<Backspace> | Moves focused window to master, others maintain order.    |
+| M4-S-<Tab>    | Rotate all windows except master and keep focus in place. |
+| M4-C-<Tab>    | Rotate all the windows in the current stack.              |
+| M4-S-s        | Copy focused window to all workspaces                     |
+| M4-C-s        | Kill every other copy of window.                          |
+**** Layouts
+| Binding     | Description                                          |
+|-------------+------------------------------------------------------|
+| M-<Space>   | Switch to next layout.                               |
+| M-S-<Space> | Switch to first layout.                              |
+| M-C-M4-j    | Arrange windows. (TODO figure out exact behavior)    |
+| M-C-M4-k    | De-arrange windows. (TODO figure out exact behavior) |
+| M-C-f       | Toggles noborder/full.                               |
+| M-S-v       | Toggles struts.                                      |
+| M-S-n       | Toggles noborder.                                    |
+| M-,         | Increase number of clients in master pane.           |
+| M-.         | Decrease number of clients in master pane.           |
+| M-S-,       | Increase number of windows.                          |
+| M-S-.       | Decrease number of windows.                          |
+| M-h         | Shrink horiz window width.                           |
+| M-l         | Expand horiz window width.                           |
+| M-C-j       | Shrink vert window width.                            |
+| M-C-k       | Expand vert window width.                            |
+**** Workspaces
+| Binding | Description                            |
+|---------+----------------------------------------|
+| M-e     | Switch focus to next monitor.          |
+| M-w     | Switch focus to prev monitor.          |
+| M-S-e   | Shift window to next monitor.          |
+| M-S-w   | Shift window to prev monitor.          |
+| M-C-e   | Shift window and move to next monitor. |
+| M-C-w   | Shift window and move to prev monitor. |
+| M-S-p   | Shifts focused window to next ws.      |
+| M-S-o   | Shifts focused window to prev ws.      |
+**** Scratchpads
+| Binding | Description                              |
+|---------+------------------------------------------|
+| M-C-t   | Launch scratchpad with default terminal. |
+**** Lock screen
+| Binding | Description  |
+|---------+--------------|
+| M-C-l   | Lock screen. |
+**** Emacs
+| Binding | Description               |
+|---------+---------------------------|
+| C-m e   | Start emacs.              |
+| C-m b   | List emacs buffers.       |
+| C-m d   | dired emacs file manager. |
+| C-m s   | eshell within emacs.      |
+| C-m t   | vterm within emacs.       |
+**** Multimedia Keys
+| Binding         | Description                                         |
+|-----------------+-----------------------------------------------------|
+| <XF86AudioMute> | Mute master channel.                                |
+| <XF86HomePage>  | Spawn browser with no arguments.                    |
+| <XF86Search>    | Spawn browser with Google URL as argument.          |
+| <XF86Eject>     | Toggle CD drive tray.                               |
+| <Print>         | Take screenshot of X root window using ImageMagick. |
+**** Search
+| Binding     | Description                                    |
+|-------------+------------------------------------------------|
+| M-s/M-S-s a | Prompt/select search Arch Linux Wiki.          |
+| M-s/M-S-s e | Prompt/select search Hoogle.                   |
+| M-s/M-S-s g | Prompt/select search GNU.                      |
+| M-s/M-S-s h | Prompt/select search Haskell Wiki.             |
+| M-s/M-S-s k | Prompt/select search kernel.org documentation. |
+| M-s/M-S-s o | Prompt/select search NixOS options.            |
+| M-s/M-S-s p | Prompt/select search NixOS packages.           |
+| M-s/M-S-s r | Prompt/select search Stackage.                 |
+| M-s/M-S-s s | Prompt/select search Google.                   |
+| M-s/M-S-s w | Prompt/select search NixOS wiki.               |
+| M-s/M-S-s y | Prompt/select search YouTube.                  |
+| M-p m       | Prompt search manpages.                        |
+| M-p p       | Prompt search passwords.                       |
+| M-p g       | Prompt generate password.                      |
+| M-p r       | Prompt remove password.                        |
+| M-p s       | Prompt ssh connection.                         |
+| M-p x       | Prompt XMonad operations.                      |
