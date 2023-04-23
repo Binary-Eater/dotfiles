@@ -366,10 +366,10 @@ searchList = [ ("a", archWiki)
              , ("g", gnu)
              , ("h", haskellWiki)
              , ("k", kernelOrgDocs)
-             , ("s", S.google)
              , ("o", nixosOptions)
              , ("p", nixosPackages)
              , ("r", S.stackage)
+             , ("s", S.google)
              , ("w", nixosWiki)
              , ("y", S.youtube)
              ]
@@ -528,7 +528,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm ]
 -- to be written in simpler, emacs-like format.
 myKeys :: [(String, X ())]
 myKeys =
-    -- Xmonad
+    -- XMonad
         [ ("M-C-r", safeSpawn "xmonad" ["--recompile"])  -- Recompiles xmonad
         , ("M-C-q", safeSpawn "xmonad" ["--restart"])    -- Restarts xmonad
         , ("M-S-q", io exitSuccess)                      -- Quits xmonad
@@ -569,13 +569,13 @@ myKeys =
         , ("M-<Backspace>", promote)           -- Moves focused window to master, others maintain order
         , ("M4-S-<Tab>", rotSlavesDown)        -- Rotate all windows except master and keep focus in place
         , ("M4-C-<Tab>", rotAllDown)           -- Rotate all the windows in the current stack
-        , ("M-S-s", windows copyToAll)
-        , ("M-C-s", killAllOtherCopies)
+        , ("M4-S-s", windows copyToAll)        -- Copy focused window to all workspaces
+        , ("M4-C-s", killAllOtherCopies)       -- Kill every other copy of window
 
     -- Layouts
         , ("M-<Space>", sendMessage NextLayout)                                 -- Switch to next layout
         , ("M-S-<Space>", sendMessage FirstLayout)                              -- Switch to first layout
-        , ("M-C-M4-j", sendMessage Arrange)
+        , ("M-C-M4-j", sendMessage Arrange)                                     -- Arrange windows into current layout
         , ("M-C-M4-k", sendMessage DeArrange)
         , ("M-C-f", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
         , ("M-S-v", sendMessage ToggleStruts)                                   -- Toggles struts
@@ -606,11 +606,11 @@ myKeys =
         , ("M-C-l", safeSpawn "xscreensaver-command" ["-lock"])
 
     -- Emacs (CTRL-e followed by a key)
-        , ("C-e e", safeSpawn "emacsclient" ["-c", "-a", ""])                                -- start emacs
-        , ("C-e b", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(ibuffer)"])         -- list emacs buffers
-        , ("C-e d", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(dired nil)"])       -- dired emacs file manager
-        , ("C-e s", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(eshell)"])          -- eshell within emacs
-        , ("C-e t", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(+vterm/here nil)"]) -- vterm within emacs
+        , ("C-m e", safeSpawn "emacsclient" ["-c", "-a", ""])                                -- start emacs
+        , ("C-m b", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(ibuffer)"])         -- list emacs buffers
+        , ("C-m d", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(dired nil)"])       -- dired emacs file manager
+        , ("C-m s", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(eshell)"])          -- eshell within emacs
+        , ("C-m t", safeSpawn "emacsclient" ["-c", "-a", "", "--eval", "(+vterm/here nil)"]) -- vterm within emacs
 
     -- Multimedia Keys
         -- TODO figure out a default flow for playing music
@@ -627,8 +627,8 @@ myKeys =
         ]
         -- Appending search engine prompts to keybindings list.
         -- Look at "search engines" section of this config for values for "k".
-        ++ [("M-s " ++ k, S.promptSearch dtXPConfig' f) | (k,f) <- searchList ]
-        ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
+        ++ [("M-s " ++ k, S.promptSearchBrowser dtXPConfig' myBrowser f) | (k,f) <- searchList ]
+        ++ [("M-S-s " ++ k, S.selectSearchBrowser myBrowser f) | (k,f) <- searchList ]
         -- Appending some extra xprompts to keybindings list.
         -- Look at "xprompt settings" section this of config for values for "k".
         ++ [("M-p " ++ k, f dtXPConfig') | (k,f) <- promptList ]
