@@ -14,14 +14,13 @@ with lib;
 
   # Specify kernel package used.
   # boot.kernelPackages = pkgs.linuxPackages; # Default value
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_6_1; # Latest kernel
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 0;
   boot.loader.grub = {
     enable = true;
-    version = 2;
     device = "nodev";
     efiSupport = true;
     enableCryptodisk = true;
@@ -143,22 +142,6 @@ with lib;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-
-    config.pipewire = {
-      "context.properties" = {
-        #"link.max-buffers" = 64;
-        "link.max-buffers" = 16; # version < 3 clients can't handle more than this
-        "log.level" = 2;         # https://docs.pipewire.org/page_daemon.html
-        #"default.clock.rate" = 48000;
-        #"default.clock.quantum" = 1024;
-        #"default.clock.min-quantum" = 32;
-        #"default.clock.max-quantum" = 8192;
-      };
-    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -234,20 +217,25 @@ with lib;
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = false;
-    forwardX11 = false;
-    passwordAuthentication = false;
+    settings = {
+      X11Forwarding = false;
+      PasswordAuthentication = false;
+    };
   };
 
   # Add udev rules.
   services.udev.extraRules = concatStringsSep "\n" [
     # Initialize Apple USB SuperDrive
     # TODO debug
-    ''"ACTION=="add", ATTRS{idProduct}=="1500", ATTRS{idVendor}=="05ac", DRIVERS=="usb", RUN+="${pkgs.sg3_utils}/bin/sg_raw %r/sr%n EA 00 00 00 00 00 01"''
+    "ACTION==\"add\", ATTRS{idProduct}==\"1500\", ATTRS{idVendor}==\"05ac\", DRIVERS==\"usb\", RUN+=\"${pkgs.sg3_utils}/bin/sg_raw %r/sr%n EA 00 00 00 00 00 01\""
   ];
 
   # Enable virtual box.
   virtualisation.virtualbox.host.enable = false;
   # users.extraGroups.vboxusers.members = [ "binary-eater" ];
+
+  # Enable docker rootless runtime.
+  virtualisation.docker.rootless.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
