@@ -32,21 +32,15 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
-     systemd
-     haskell
-     rust
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
-     ;; better-defaults
+     auto-completion
+     better-defaults
      emacs-lisp
-     git
-     helm
-     pass
      (erc :variables
           erc-enable-sasl-auth t
           erc-server-list
@@ -58,22 +52,28 @@ This function should only modify configuration layer settings."
              :port "6697"
              :ssl t
              :nick "binary-eater")))
-     ;; lsp
+     git
+     haskell
+     helm
+     pass
+     lsp
      ;; markdown
      multiple-cursors
      (mu4e :variables
-           mu4e-use-maildirs-extension t
+           ;;mu4e-use-maildirs-extension t
            mu4e-enable-notifications t
            mu4e-enable-mode-line t
            mu4e-org-compose-support t)
      (nixos :variables nixos-format-on-save t)
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
-     ;; syntax-checking
-     ;; version-control
+     (rust :variables rust-format-on-save t)
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
+     spell-checking
+     syntax-checking
+     systemd
+     version-control
      treemacs)
 
 
@@ -278,7 +278,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 10.0
+                               :size 16.0
                                :weight normal
                                :width normal)
 
@@ -599,6 +599,12 @@ before packages are loaded."
   (setq erc-prompt-for-password nil)
   (setq erc-prompt-for-nickserv-password nil)
 
+  ;; Message citation
+  ;(setq message-cite-style 'message-cite-style-thunderbird)
+  ; Copy Linus Torvald's citation line format
+  (setq message-citation-line-format "On %a, %d %b, %G %T %z %f wrote:")
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+
   ;; mu4e setup
   (setq mu4e-maildir "~/.mail/proton"
         user-full-name "Rahul Rameshbabu"
@@ -690,6 +696,10 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    '(helm-pass password-store-otp password-store erc-hl-nicks erc-image erc-social-graph erc-view-log erc-yt helm-mu mu4e-alert alert log4e gntp mu4e-maildirs-extension toml-mode ron-mode racer pos-tip rust-mode flycheck-rust dap-mode lsp-docker lsp-treemacs bui cargo web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path systemd treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor transient nix-mode helm-nixos-options nixos-options lsp-haskell lsp-mode markdown-mode hlint-refactor hindent helm-hoogle helm-gtags haskell-snippets yasnippet ggtags flycheck-haskell dante lcr haskell-mode counsel-gtags counsel swiper ivy company-cabal company cmm-mode attrap ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+ '(safe-local-variable-values
+   '((lsp-rust-analyzer-linked-projects .
+                                        ["./chapter-1/hello_cargo/Cargo.toml" "./chapter-2/guessing_game/Cargo.toml"])
+     (clang-format-style . "file")))
  '(send-mail-function 'smtpmail-send-it))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

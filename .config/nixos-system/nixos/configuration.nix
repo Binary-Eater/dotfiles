@@ -85,7 +85,7 @@ with lib;
     };
   };
 
-  # KDE test environment TODO delete
+  # KDE test environment
   services.xserver.desktopManager.plasma5.enable = false;
 
   # Configure X server screen settings
@@ -120,7 +120,13 @@ with lib;
       pkgs.glib-networking
       pkgs.libsoup
     ];
-  })) ;
+  }));
+
+  # systemd.logind configuration.
+  services.logind.extraConfig = concatStringsSep "\n" [
+    "HandlePowerKey=suspend"           # Suspend system when power key is pressed
+    "HandlePowerKeyLongPress=poweroff" # Power down system when power key is long pressed
+  ];
 
   /* NOTE: Disabling standard approach to sound in NixOS
    *
@@ -197,8 +203,9 @@ with lib;
 
   # List fonts installed in system profile.
   fonts.fonts = with pkgs; [
-    mononoki     # Mononoki Nerd Font
-    font-awesome # Font Awesome Free
+    source-code-pro # Source Code Pro
+    mononoki        # Mononoki Nerd Font
+    font-awesome    # Font Awesome Free
   ];
 
   # List services that you want to enable:

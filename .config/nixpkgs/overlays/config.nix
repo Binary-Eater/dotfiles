@@ -33,18 +33,23 @@ in
   binary-eater = with super.pkgs; buildEnv {
     name = "binary-eater";
     paths = [
+      clang-tools                   # Clang tools
       discord                       # Discord Content Sharing Application
       feh                           # Image Viewer/Cataloguer
       fractal                       # Matrix Client
+      gdb                           # GNU Debugger
       git                           # VCS
       graphviz                      # GraphViz for erc-social-graph
+      helvum                        # PipeWire Patchbay
       imagemagick                   # Image Manipulation Library
       isync                         # IMAP Maildir Sync Client
       kicad                         # PCB Design Software
+      languagetool                  # Proof-reading Program
       mu                            # Maildir Indexing Program
       neofetch                      # Terminal Startup Display
       pass                          # GPG-based Password Manager
       protonmail-bridge             # ProtonMail Bridge
+      ripgrep                       # grep Alternative
       qutebrowser                   # Web Browser
       saleae-logic                  # Saleae Logic Analyzer
       slack                         # Slack Chat Application
@@ -58,41 +63,15 @@ in
       xlsfonts                      # XLDF Font Selection Lister
       xorg.xmodmap                  # X11 Keymap Manipulator
       xscreensaver                  # XScreenSaver
-      (wineWowPackages.staging.overrideDerivation (previousAttrs: {
-        buildInputs = previousAttrs.buildInputs ++ [
-          lib32_gstreamer
-          lib32_gst-plugins-base
-          lib32_gst-libav
-          lib32_gst-plugins-ugly
-          lib32_gst-plugins-good
-        ];
-        postInstall = previousAttrs.postInstall + ''
-          # Wrapping Wine is tricky.
-          # https://github.com/NixOS/nixpkgs/issues/63170
-          # https://github.com/NixOS/nixpkgs/issues/28486
-          # The main problem is that wine-preloader opens and loads the wine(64) binary, and
-          # breakage occurs if it finds a shell script instead of the real binary. We solve this
-          # by setting WINELOADER to point to the original binary. Additionally, the locations
-          # of the 32-bit and 64-bit binaries must differ only by the presence of "64" at the
-          # end, due to the logic Wine uses to find the other binary (see get_alternate_loader
-          # in dlls/kernel32/process.c). Therefore we do not use wrapProgram which would move
-          # the binaries to ".wine-wrapped" and ".wine64-wrapped", but use makeWrapper directly,
-          # and move the binaries to ".wine" and ".wine64".
-          for i in wine wine64 ; do
-            prog="$out/bin/$i"
-            if [ -e "$prog" ]; then
-              hidden="$(dirname "$prog")/.$(basename "$prog")"
-              mv "$prog" "$hidden"
-              makeWrapper "$hidden" "$prog" \
-                --argv0 "" \
-                --set WINELOADER "$hidden" \
-                --prefix GST_PLUGIN_SYSTEM_PATH_1_0 ":" "$GST_PLUGIN_SYSTEM_PATH_1_0"
-            fi
-          done
-        '';
-      }))                            # Wine (32/64-bit)
+      wineWowPackages.staging       # Wine (32/64-bit)
       winetricks                    # Wine sandboxing
       yubikey-manager               # YubiKey Manager
+
+      (retroarch.override {
+        cores = with libretro; [
+          desmume
+        ];
+      })
     ];
   };
 }

@@ -174,7 +174,7 @@ myStartupHook = do
     spawnOnce "volumeicon &"
     spawnOnce $ "trayer --edge top --align right --widthtype request --padding 6 --iconspacing 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x" ++ drop 1 myNormColor ++ " --height 30 &"
     spawnOnce "protonmail-bridge --noninteractive &"
-    spawnOnce "emacs --daemon &"
+    spawnOnce "nix-shell -p python3 openjdk rust-analyzer rustup --command 'emacs --daemon' &"
 --  Only need if working with any ancient version of the Java Runtime
 --  setWMName "LG3D" -- https://hackage.haskell.org/package/xmonad-contrib-0.16/docs/XMonad-Hooks-SetWMName.html
 
@@ -399,7 +399,9 @@ myManageHook = composeAll
      , className =? "vlc"      --> doShift "vid"
      , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
      , (className =? "Gimp" <&&> isDialog) --> doFloat
+     , className =? "steam"    --> doShift "games"
      , className =? "Gimp"     --> doShift "gfx"
+     , className =? "discord"  --> doShift "chat"
      , (className =? myTerminal <&&> title =? "toxic") --> doShift "chat" -- Shift Toxic window
      , className =? myTerminal --> doShift "dev"
      , (className =? myBrowser <&&> isDialog) --> doFloat -- Float browser dialog
@@ -623,7 +625,7 @@ myKeys =
         , ("<XF86Eject>", safeSpawn "eject" ["-T"])
         -- Breaking support for shells like tcsh by using "$(...)" syntax
         -- for command substitution in place of "`...`"
-        , ("<Print>", spawn "import -window root $HOME/Pictures/Screenshots/$(date +%d%m%y%H%M%S).png")
+        , ("<Print>", spawn "import -silent -window root $HOME/Pictures/Screenshots/$(date +%d%m%y%H%M%S).png")
         ]
         -- Appending search engine prompts to keybindings list.
         -- Look at "search engines" section of this config for values for "k".
