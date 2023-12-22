@@ -17,3 +17,5 @@
 	aliasFileType = mailrc
 [credential]
 	helper = store --file ~/.config/protonmail/git-credentials
+[commit]
+	gpgSign = true

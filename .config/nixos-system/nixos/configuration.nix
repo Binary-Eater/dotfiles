@@ -14,11 +14,57 @@ with lib;
 
   # Specify kernel package used.
   # boot.kernelPackages = pkgs.linuxPackages; # Default value
-  boot.kernelPackages = pkgs.linuxPackages_6_1; # Latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
+  nixpkgs.config.allowBroken = true;
+  boot.kernelPatches = [
+    {
+      name = "hid-bpf-config";
+      patch = null;
+      extraConfig = ''
+        DEBUG_INFO_BTF y
+        KPROBES y
+        KPROBE_EVENTS y
+        KPROBES_ON_FTRACE y
+
+        HID_BPF y
+
+        HID_NVIDIA_SHIELD m
+        NVIDIA_SHIELD_FF y
+      '';
+    }
+  ];
+  /*
+  boot.kernelPackages = let
+    linux_bpf_pkg = { buildLinux, ... } @ args:
+      buildLinux (args // rec {
+        version = "6.6.0-rc5";
+        modDirVersion = version;
+
+        src = /home/binary-eater/Documents/linux-clean;
+        kernelPatches = [];
+
+        ignoreConfigErrors = true;
+
+        extraConfig = ''
+          DEBUG_INFO_BTF y
+          KPROBES y
+          KPROBE_EVENTS y
+          KPROBES_ON_FTRACE y
+
+          HID_BPF y
+
+          HID_NVIDIA_SHIELD m
+          NVIDIA_SHIELD_FF y
+        '';
+      } // (args.argsOverride or {}));
+    linux_bpf = pkgs.callPackage linux_bpf_pkg{};
+  in
+    pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_bpf);
+  */
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.timeout = 0;
+  boot.loader.timeout = 10;
   boot.loader.grub = {
     enable = true;
     device = "nodev";
@@ -191,7 +237,9 @@ with lib;
 
     # User tools
     alsaUtils              # ALSA Utilities
-    emacs                  # Editor
+    ((emacsPackagesFor emacs).emacsWithPackages (
+      epkgs: [ epkgs.mu4e ]
+      )) # Editor
     rxvt-unicode           # Terminal Emulator
     xsel                   # Command-line X Selection Tool
     trayer                 # System Tray
@@ -202,10 +250,11 @@ with lib;
   programs.vim.defaultEditor = true;
 
   # List fonts installed in system profile.
-  fonts.fonts = with pkgs; [
-    source-code-pro # Source Code Pro
-    mononoki        # Mononoki Nerd Font
-    font-awesome    # Font Awesome Free
+  fonts.packages = with pkgs; [
+    source-code-pro                                  # Source Code Pro
+    (nerdfonts.override { fonts = [ "Mononoki" ]; }) # Mononoki Nerd Font (for urxvt)
+    mononoki                                         # Mononoki (for xmobar)
+    font-awesome                                     # Font Awesome Free
   ];
 
   # List services that you want to enable:

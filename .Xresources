@@ -184,7 +184,7 @@ URxvt*depth: 32
 *.color14:             #46d9ff
 
 ! white
-*.color7:              #202328
+*.color7:              #d3d6db
 *.color15:             #dfdfdf
 
 ! Enable locking on screensaver

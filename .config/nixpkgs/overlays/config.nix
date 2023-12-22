@@ -1,4 +1,5 @@
 self: super:
+/*
 let
   lib32_gstreamer = (super.callPackage_i686 <nixpkgs/pkgs/development/libraries/gstreamer/core> {
     CoreServices = {};  # macOS dependency.....
@@ -29,6 +30,7 @@ let
     gst-plugins-base = lib32_gst-plugins-base;
   });
 in
+*/
 {
   binary-eater = with super.pkgs; buildEnv {
     name = "binary-eater";
@@ -48,6 +50,7 @@ in
       mu                            # Maildir Indexing Program
       neofetch                      # Terminal Startup Display
       pass                          # GPG-based Password Manager
+      pavucontrol                   # PulseAudio Control GUI
       protonmail-bridge             # ProtonMail Bridge
       ripgrep                       # grep Alternative
       qutebrowser                   # Web Browser
@@ -66,6 +69,8 @@ in
       wineWowPackages.staging       # Wine (32/64-bit)
       winetricks                    # Wine sandboxing
       yubikey-manager               # YubiKey Manager
+
+      firefox # TODO think about
 
       (retroarch.override {
         cores = with libretro; [

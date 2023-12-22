@@ -40,6 +40,9 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      auto-completion
      better-defaults
+     (c-c++ :variables
+            c-c++-enable-clang-format-on-save nil
+            c-c++-backend 'lsp-clangd)
      emacs-lisp
      (erc :variables
           erc-enable-sasl-auth t
@@ -55,7 +58,12 @@ This function should only modify configuration layer settings."
      git
      haskell
      helm
-     pass
+     (languagetool :variables
+                   langtool-default-language "en-US"
+                   languagetool-show-error-on-jump t
+                   langtool-language-tool-jar (concat (shell-command-to-string
+                                                       "nix --extra-experimental-features nix-command --extra-experimental-features flakes eval -f '<nixpkgs>' --raw 'languagetool'")
+                                                      "/share/languagetool-commandline.jar"))
      lsp
      ;; markdown
      multiple-cursors
@@ -66,6 +74,7 @@ This function should only modify configuration layer settings."
            mu4e-org-compose-support t)
      (nixos :variables nixos-format-on-save t)
      org
+     pass
      (rust :variables rust-format-on-save t)
      (shell :variables
             shell-default-height 30
@@ -605,6 +614,11 @@ before packages are loaded."
   (setq message-citation-line-format "On %a, %d %b, %G %T %z %f wrote:")
   (setq message-citation-line-function 'message-insert-formatted-citation-line)
 
+  ;; Magit
+  (setq git-commit-turn-on-auto-fill t)
+  (setq git-commit-summary-max-length 75)
+  (add-hook 'git-commit-mode-hook (lambda () (setq fill-column 75)))
+
   ;; mu4e setup
   (setq mu4e-maildir "~/.mail/proton"
         user-full-name "Rahul Rameshbabu"
@@ -695,12 +709,15 @@ This function is called at the very end of Spacemacs initialization."
  '(auth-source-save-behavior nil)
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(helm-pass password-store-otp password-store erc-hl-nicks erc-image erc-social-graph erc-view-log erc-yt helm-mu mu4e-alert alert log4e gntp mu4e-maildirs-extension toml-mode ron-mode racer pos-tip rust-mode flycheck-rust dap-mode lsp-docker lsp-treemacs bui cargo web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path systemd treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor transient nix-mode helm-nixos-options nixos-options lsp-haskell lsp-mode markdown-mode hlint-refactor hindent helm-hoogle helm-gtags haskell-snippets yasnippet ggtags flycheck-haskell dante lcr haskell-mode counsel-gtags counsel swiper ivy company-cabal company cmm-mode attrap ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(langtool ccls company-c-headers company-rtags company-ycmd cpp-auto-include disaster flycheck-rtags flycheck-ycmd gendoxy google-c-style helm-rtags rtags ycmd request-deferred deferred helm-pass password-store-otp password-store erc-hl-nicks erc-image erc-social-graph erc-view-log erc-yt helm-mu mu4e-alert alert log4e gntp mu4e-maildirs-extension toml-mode ron-mode racer pos-tip rust-mode flycheck-rust dap-mode lsp-docker lsp-treemacs bui cargo web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path systemd treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor transient nix-mode helm-nixos-options nixos-options lsp-haskell lsp-mode markdown-mode hlint-refactor hindent helm-hoogle helm-gtags haskell-snippets yasnippet ggtags flycheck-haskell dante lcr haskell-mode counsel-gtags counsel swiper ivy company-cabal company cmm-mode attrap ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(safe-local-variable-values
    '((lsp-rust-analyzer-linked-projects .
+                                        ["./chapter-1/hello_cargo/Cargo.toml" "./chapter-2/guessing_game/Cargo.toml" "./chapter-3/variables/Cargo.toml"])
+     (lsp-rust-analyzer-linked-projects .
                                         ["./chapter-1/hello_cargo/Cargo.toml" "./chapter-2/guessing_game/Cargo.toml"])
      (clang-format-style . "file")))
- '(send-mail-function 'smtpmail-send-it))
+ '(send-mail-function 'smtpmail-send-it)
+ '(warning-suppress-types '((emacsql))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
