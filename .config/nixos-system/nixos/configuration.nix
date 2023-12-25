@@ -15,11 +15,6 @@ with lib;
   # Specify kernel package used.
   # boot.kernelPackages = pkgs.linuxPackages; # Default value
   boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
-
-  # Use b43 reverse engineered driver for bcm4331.
-  boot.kernelModules = [ "b43" ];
-  networking.enableB43Firmware = true; # Proprietary firmware blob needed
-
   /*
   nixpkgs.config.allowBroken = true;
   boot.kernelPatches = [
@@ -221,7 +216,7 @@ with lib;
 
   # Allow unfree software like NVIDIA proprietary drivers.
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "b43-firmware"
+    "broadcom-sta"
     "steam"
     "steam-original"
     "steam-run"
