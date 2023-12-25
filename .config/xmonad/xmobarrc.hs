@@ -10,21 +10,15 @@ Config { font            = "xft:mononoki"
        , fgColor         = "#ff6c6b"
        , position        = Static { xpos = 0
                                   , ypos = 0
-                                  , width = 3440
+                                  , width = 1920
                                   , height = 30
                                   }
        , lowerOnStart    = True
        , hideOnStart     = False
        , allDesktops     = True
        , persistent      = True
-       , iconRoot        = "/home/binary-eater/.config/xmonad/xpm/" -- default: "."
-       , commands        = [ Run Date "<fn=1>\xf133</fn> %b %d %Y - (%H:%M:%S)" "date" 50                          -- Time and date
-                           , Run Network "enp42s0" [ "-t"
-                                                   , "<fn=1>\xf0aa</fn>  <rx>kb  <fn=1>\xf0ab</fn>  <tx>kb"
-                                                   ] 20                                                            -- 2.5Gbps network up and down
-                           , Run Network "enp6s0" [ "-t"
-                                                  , "<fn=1>\xf0aa</fn>  <rx>kb  <fn=1>\xf0ab</fn>  <tx>kb"
-                                                  ] 20                                                             -- 1Gbps network up and down
+       , iconRoot        = "/home/binary-eater/.config/xmonad/xpm/"                                                -- default: "."
+       , commands        = [ Run Date "<fn=1>\xf017</fn> %H:%M:%S" "date" 50                                       -- Time
                            , Run Cpu [ "-t"
                                      , "<fn=1>\xf108</fn>  cpu: (<total>%)"
                                      , "-H"
@@ -35,9 +29,20 @@ Config { font            = "xft:mononoki"
                            , Run Memory [ "-t"
                                         , "<fn=1>\xf233</fn>  mem: <used>M (<usedratio>%)"
                                         ] 20                                                                       -- Ram usage value and percent
-                           , Run DiskU [ ("/", "<fn=1>\xf0c7</fn>  root: <free> free")
-                                       , ("/home", "  home: <free> free")
-                                       ] [] 60                                                                     -- Disk space free
+                           , Run BatteryP ["BAT0"] [ "-t"
+                                                   , "<fn=1><acstatus></fn>  <left>%"
+                                                   , "--"
+                                                   , "-O"
+                                                   , "\xe55b"
+                                                   , "-i"
+                                                   , "\xe55c"
+                                                   , "-o"
+                                                   , "\xf241"
+                                                   , "-l"
+                                                   , "red"
+                                                   , "-a"
+                                                   , "dunstify -u critical -a 'Xmobar' 'Battery charge is low' 'Please charge the battery or power off the device soon.'"
+                                                   ] 20                                                            -- Battery information
                            , Run Com "nixos-version" [] "" 3600                                                    -- Runs a standard shell command 'nixos-version' to get NixOS release version
                            , Run Com "uname" ["-r"] "" 3600                                                        -- Runs a standard shell command 'uname -r' to get kernel version
                            , Run Com "/home/binary-eater/.config/xmonad/trayer-padding-icon.sh" [] "trayerpad" 20  -- Script that dynamically adjusts xmobar padding depending on number of trayer icons
@@ -47,5 +52,5 @@ Config { font            = "xft:mononoki"
                            ]
        , sepChar         = "%"
        , alignSep        = "}{"
-       , template = " <icon=haskell_20.xpm/> <fc=#666666>  |</fc> %StdinReader% }{ <fc=#666666> |</fc> <fc=#b3afc2><fn=2></fn>  %uname% </fc><fc=#666666> |</fc> <fc=#c678dd><fn=1></fn>  NixOS %nixos-version% </fc><fc=#666666> |</fc> <fc=#ecbe7b> %cpu% </fc><fc=#666666> |</fc> <fc=#ff6c6b> %memory% </fc><fc=#666666> |</fc> <fc=#51afef> %disku% </fc><fc=#666666> |</fc> <fc=#98be65> 2.5Gbps [ %enp42s0% ]  1Gbps [ %enp6s0% ] </fc><fc=#666666> |</fc>  <fc=#46d9ff> %date%  </fc><fc=#666666>|</fc>%trayerpad%"
+       , template = " <icon=haskell_20.xpm/> <fc=#666666>  |</fc> %StdinReader% }{ <fc=#666666> |</fc> <fc=#b3afc2><fn=2></fn>  %uname% </fc><fc=#666666> |</fc> <fc=#c678dd><fn=1></fn>  NixOS %nixos-version% </fc><fc=#666666> |</fc> <fc=#ecbe7b> %cpu% </fc><fc=#666666> |</fc> <fc=#ff6c6b> %memory% </fc><fc=#666666> |</fc> <fc=#98be65> %battery% </fc><fc=#666666> |</fc> <fc=#46d9ff> %date%  </fc><fc=#666666>|</fc>%trayerpad%"
        }

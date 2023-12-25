@@ -15,6 +15,12 @@ with lib;
   # Specify kernel package used.
   # boot.kernelPackages = pkgs.linuxPackages; # Default value
   boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
+
+  # Use b43 reverse engineered driver for bcm4331.
+  boot.kernelModules = [ "b43" ];
+  networking.enableB43Firmware = true; # Proprietary firmware blob needed
+
+  /*
   nixpkgs.config.allowBroken = true;
   boot.kernelPatches = [
     {
@@ -33,6 +39,7 @@ with lib;
       '';
     }
   ];
+  */
   /*
   boot.kernelPackages = let
     linux_bpf_pkg = { buildLinux, ... } @ args:
@@ -75,8 +82,8 @@ with lib;
   boot.loader.efi.efiSysMountPoint = "/efi";
   boot.initrd.luks.devices = {
     root = {
-      device = "/dev/disk/by-uuid/04df6014-3343-4a3b-8721-b4e844b9c714";
-      preLVM = true;
+      device = "/dev/disk/by-uuid/42820df0-1061-4c5f-85c7-2a62e4da564b";
+      preLVM = false;
       keyFile = "/etc/BINARY-EATER-DEV/luks_decrypt_key";
     };
   };
@@ -94,8 +101,8 @@ with lib;
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp42s0.useDHCP = true; # 2.5Gbps interface
-  networking.interfaces.enp6s0.useDHCP = true;  # 1Gbps interface
+  #networking.interfaces.enp42s0.useDHCP = true; # 2.5Gbps interface
+  #networking.interfaces.enp6s0.useDHCP = true;  # 1Gbps interface
 
   # Enable NetworkManager
   networking.networkmanager.enable = true;
@@ -134,11 +141,6 @@ with lib;
   # KDE test environment
   services.xserver.desktopManager.plasma5.enable = false;
 
-  # Configure X server screen settings
-  services.xserver.screenSection = ''
-    Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On}"
-  '';
-
   # Configure sudoers file
   security.sudo.extraConfig = concatStringsSep "\n" [
     "Defaults timestamp_timeout=0"
@@ -146,12 +148,15 @@ with lib;
   ];
 
   # Configure video drivers
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ]; # Need modesetting when using non-default kernel package with nixOS
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   # Enable OpenGL.
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
   hardware.opengl.driSupport32Bit = true;
+
+  # Enable bluetooth.
+  hardware.bluetooth.enable = false;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -216,8 +221,7 @@ with lib;
 
   # Allow unfree software like NVIDIA proprietary drivers.
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "nvidia-x11"
-    "nvidia-settings"
+    "b43-firmware"
     "steam"
     "steam-original"
     "steam-run"
@@ -306,7 +310,7 @@ with lib;
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
 
