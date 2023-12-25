@@ -170,8 +170,9 @@ with lib;
 
   # systemd.logind configuration.
   services.logind.extraConfig = concatStringsSep "\n" [
-    "HandlePowerKey=suspend"           # Suspend system when power key is pressed
-    "HandlePowerKeyLongPress=poweroff" # Power down system when power key is long pressed
+    # Disable power key.
+    "HandlePowerKey=ignore"
+    "HandlePowerKeyLongPress=ignore"
   ];
 
   /* NOTE: Disabling standard approach to sound in NixOS
